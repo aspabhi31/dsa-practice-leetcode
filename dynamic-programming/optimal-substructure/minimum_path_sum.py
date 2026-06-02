@@ -64,7 +64,7 @@ def min_path_sum_4(grid):
         for j in range(cols):
             if i==0 and j==0:
                 dp[j]=grid[i][j]
-            else:    
+            else:
                 top=dp[j] if i>0 else float('inf')
                 left=dp[j-1] if j>0 else float('inf')
                 dp[j]=grid[i][j]+min(top, left)
