@@ -49,6 +49,31 @@ def number_of_islands_1(grid):
                 count+=1
                 dfs(row, column, grid)
     return count
+
+#Breadth-First Search(BFS)
+from collections import deque
+def number_of_islands_2(grid):
+    if not grid:
+        return 0
+    rows=len(grid)
+    cols=len(grid[0])
+    count=0
+    directions=[(0,1),(1,0),(-1,0),(0,-1)]
+    for row in range(rows):
+        for column in range(cols):
+            if grid[row][column]=="1":
+                count+=1
+                grid[row][column]="0"
+                q=deque([(row, column)])
+                while q:
+                    x, y=q.popleft()
+                    for dx, dy in directions:
+                        nx, ny=x+dx, y+dy
+                        if 0<=nx<rows and 0<=ny<cols and grid[nx][ny]=="1":
+                            grid[nx][ny]="0"
+                            q.append((nx, ny))
+    return count
+
 grid = [
      ["1", "1", "0", "0", "0"],
      ["1", "1", "0", "0", "0"],
@@ -56,3 +81,10 @@ grid = [
      ["0", "0", "0", "1", "1"]
 ]
 print(number_of_islands_1(grid))
+grid = [
+     ["1", "1", "0", "0", "0"],
+     ["1", "1", "0", "0", "0"],
+     ["0", "0", "1", "0", "0"],
+     ["0", "0", "0", "1", "1"]
+]
+print(number_of_islands_2(grid))
