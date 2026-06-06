@@ -58,6 +58,25 @@ def number_of_provinces_2(isConnected):
             dfs_2(city, isConnected, vis)
     return provinces
 
+# Breadth-First Search (BFS)
+from collections import deque
+def number_of_provinces_3(isConnected):
+    vis=dict()
+    provinces=0
+    for city in range(len(isConnected)):
+        if city not in vis:
+            provinces+=1
+            vis[city]=1
+            q=deque([city])
+            while q:
+                curr=q.popleft()
+                for i in range(len(isConnected)):
+                    if isConnected[curr][i]==1 and vis.get(i)!=1:
+                        vis[i]=1
+                        q.append(i)
+    return provinces
+
 isConnected = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 print(number_of_provinces_1(isConnected))
 print(number_of_provinces_2(isConnected))
+print(number_of_provinces_3(isConnected))
