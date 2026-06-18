@@ -31,7 +31,7 @@ def dfs(row, column, board):
     dfs(row, column+1, board)
     dfs(row, column-1, board)
 
-def solve(board):
+def solve_1(board):
     if not board:
         return
     rows=len(board)
@@ -53,6 +53,81 @@ def solve(board):
             elif board[row][col]=='#':
                 board[row][col]='O'
 
+# Depth-First Search (DFS) Iterative (Stack)
+def solve_2(board):
+    if not board:
+        return
+    stack=[]
+    rows=len(board)
+    cols=len(board[0])
+    for row in range(rows):
+        if board[row][0]=='O':
+            stack.append((row, 0))
+        if board[row][cols-1]=='O':
+            stack.append((row, cols-1))
+    for col in range(cols):
+        if board[0][col]=='O':
+            stack.append((0, col))
+        if board[rows-1][col]=='O':
+            stack.append((rows-1, col))
+    directions=[(1, 0), (-1, 0), (0, 1), (0, -1)]
+    while stack:
+        r, c=stack.pop()
+        if board[r][c]!='O':
+            continue
+        board[r][c]='#'
+        for dr, dc in directions:
+            nr, nc=r+dr, c+dc
+            if 0<=nr<rows and 0<=nc<cols and board[nr][nc]=='O':
+                stack.append((nr, nc))
+    for row in range(rows):
+        for col in range(cols):
+            if board[row][col]=='O':
+                board[row][col]='X'
+            elif board[row][col]=='#':
+                board[row][col]='O'
+
+# Breadth-First Search (DFS) Iterative (Queue)
+from collections import deque
+def solve_3(board):
+    if not board:
+        return
+    q=deque()
+    rows=len(board)
+    cols=len(board[0])
+    for row in range(rows):
+        if board[row][0]=='O':
+            q.append((row, 0))
+        if board[row][cols-1]=='O':
+            q.append((row, cols-1))
+    for col in range(cols):
+        if board[0][col]=='O':
+            q.append((0, col))
+        if board[rows-1][col]=='O':
+            q.append((rows-1, col))
+    directions=[(1, 0), (-1, 0), (0, 1), (0, -1)]
+    while q:
+        r, c=q.popleft()
+        if board[r][c]!='O':
+            continue
+        board[r][c]='#'
+        for dr, dc in directions:
+            nr, nc=r+dr, c+dc
+            if 0<=nr<rows and 0<=nc<cols and board[nr][nc]=='O':
+                q.append((nr, nc))
+    for row in range(rows):
+        for col in range(cols):
+            if board[row][col]=='O':
+                board[row][col]='X'
+            elif board[row][col]=='#':
+                board[row][col]='O'
+
 board = [["X", "X", "X", "X"], ["X", "O", "O", "X"], ["X", "X", "O", "X"], ["X", "O", "X", "X"]]
-solve(board)
+solve_1(board)
+print(board)
+board = [["X", "X", "X", "X"], ["X", "O", "O", "X"], ["X", "X", "O", "X"], ["X", "O", "X", "X"]]
+solve_2(board)
+print(board)
+board = [["X", "X", "X", "X"], ["X", "O", "O", "X"], ["X", "X", "O", "X"], ["X", "O", "X", "X"]]
+solve_3(board)
 print(board)
